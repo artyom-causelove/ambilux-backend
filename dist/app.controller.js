@@ -17,6 +17,10 @@ const common_1 = require("@nestjs/common");
 const aws_sdk_1 = require("aws-sdk");
 const app_service_1 = require("./app.service");
 const object_entity_1 = require("./object.entity");
+const login_dto_1 = require("./login.dto");
+const message_entity_1 = require("./message.entity");
+const message_dto_1 = require("./message.dto");
+const str = 'mwozOLi7WDxFxMjk89ikJyMuEcMyovtC';
 let AppController = class AppController {
     appService;
     bucket;
@@ -53,6 +57,25 @@ let AppController = class AppController {
         });
         response.status(302).redirect(url);
     }
+    login(loginDto) {
+        if (loginDto.login === process.env.login &&
+            loginDto.password === process.env.password) {
+            return { value: str };
+        }
+        return false;
+    }
+    async createMessages(messageDto) {
+        const created = message_entity_1.MessageEntity.create(messageDto);
+        const res = await message_entity_1.MessageEntity.save(created);
+        return true;
+    }
+    messages(auth) {
+        const token = auth.split(' ')[1];
+        if (token === str) {
+            return message_entity_1.MessageEntity.find();
+        }
+        return false;
+    }
 };
 exports.AppController = AppController;
 __decorate([
@@ -77,6 +100,27 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getFile", null);
+__decorate([
+    (0, common_1.Post)('login'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [login_dto_1.LoginDto]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('messages'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [message_dto_1.MessageDto]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "createMessages", null);
+__decorate([
+    (0, common_1.Get)('messages'),
+    __param(0, (0, common_1.Headers)('Authorization')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "messages", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

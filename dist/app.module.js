@@ -13,12 +13,22 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const object_entity_1 = require("./object.entity");
 const file_entity_1 = require("./file.entity");
+const throttler_1 = require("@nestjs/throttler");
+const message_entity_1 = require("./message.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            throttler_1.ThrottlerModule.forRoot({
+                throttlers: [
+                    {
+                        ttl: 60000,
+                        limit: 10,
+                    },
+                ],
+            }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'postgres',
                 host: 'localhost',
@@ -26,7 +36,7 @@ exports.AppModule = AppModule = __decorate([
                 username: 'postgres',
                 password: 'root',
                 database: 'ambilux',
-                entities: [object_entity_1.ObjectEntity, file_entity_1.FileEntity],
+                entities: [object_entity_1.ObjectEntity, file_entity_1.FileEntity, message_entity_1.MessageEntity],
                 synchronize: true,
             }),
         ],

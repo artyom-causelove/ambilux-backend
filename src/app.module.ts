@@ -6,9 +6,19 @@ import { AppService } from './app.service';
 
 import { ObjectEntity } from './object.entity';
 import { FileEntity } from './file.entity';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { MessageEntity } from './message.entity';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -16,7 +26,7 @@ import { FileEntity } from './file.entity';
       username: 'postgres',
       password: 'root',
       database: 'ambilux',
-      entities: [ObjectEntity, FileEntity],
+      entities: [ObjectEntity, FileEntity, MessageEntity],
       synchronize: true,
     }),
   ],

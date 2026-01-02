@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const dotenv_1 = __importDefault(require("dotenv"));
+const common_1 = require("@nestjs/common");
 async function bootstrap() {
     dotenv_1.default.config();
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
@@ -14,6 +15,7 @@ async function bootstrap() {
         origin: '*',
         credentials: true,
     });
+    app.useGlobalPipes(new common_1.ValidationPipe());
     await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();
