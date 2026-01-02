@@ -58,8 +58,8 @@ let AppController = class AppController {
         response.status(302).redirect(url);
     }
     login(loginDto) {
-        if (loginDto.login === process.env.login &&
-            loginDto.password === process.env.password) {
+        if (loginDto.login === process.env.LOGIN &&
+            loginDto.password === process.env.PASSWORD) {
             return { value: str };
         }
         return false;
@@ -79,20 +79,20 @@ let AppController = class AppController {
 };
 exports.AppController = AppController;
 __decorate([
-    (0, common_1.Get)('/objects'),
+    (0, common_1.Get)('/api/objects'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getObjects", null);
 __decorate([
-    (0, common_1.Get)('/objects/:path'),
+    (0, common_1.Get)('/api/objects/:path'),
     __param(0, (0, common_1.Param)('path')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getObject", null);
 __decorate([
-    (0, common_1.Get)(':prefix/:title'),
+    (0, common_1.Get)('/api/:prefix/:title'),
     __param(0, (0, common_1.Param)('prefix')),
     __param(1, (0, common_1.Param)('title')),
     __param(2, (0, common_1.Res)()),
@@ -101,21 +101,21 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getFile", null);
 __decorate([
-    (0, common_1.Post)('login'),
+    (0, common_1.Post)('/api/login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "login", null);
 __decorate([
-    (0, common_1.Post)('messages'),
+    (0, common_1.Post)('/api/messages'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [message_dto_1.MessageDto]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "createMessages", null);
 __decorate([
-    (0, common_1.Get)('messages'),
+    (0, common_1.Get)('/api/messages'),
     __param(0, (0, common_1.Headers)('Authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

@@ -28,7 +28,7 @@ export class AppController {
     this.bucket.config.setPromisesDependency(Promise);
   }
 
-  @Get('/objects')
+  @Get('/api/objects')
   getObjects() {
     return ObjectEntity.find({
       relations: ['picture', 'files'],
@@ -36,7 +36,7 @@ export class AppController {
     });
   }
 
-  @Get('/objects/:path')
+  @Get('/api/objects/:path')
   getObject(
     @Param('path') path: string
   ) {
@@ -46,7 +46,7 @@ export class AppController {
     });
   }
 
-  @Get(':prefix/:title')
+  @Get('/api/:prefix/:title')
   getFile(
     @Param('prefix') prefix: string,
     @Param('title') title: string,
@@ -61,13 +61,13 @@ export class AppController {
     response.status(302).redirect(url);
   }
 
-  @Post('login')
+  @Post('/api/login')
   login(
     @Body() loginDto: LoginDto
   ) {
     if (
-      loginDto.login === process.env.login &&
-      loginDto.password === process.env.password
+      loginDto.login === process.env.LOGIN &&
+      loginDto.password === process.env.PASSWORD
     ) {
       return { value: str };
     }
@@ -75,7 +75,7 @@ export class AppController {
     return false;
   }
 
-  @Post('messages')
+  @Post('/api/messages')
   async createMessages(@Body() messageDto: MessageDto) {
     const created = MessageEntity.create(messageDto as any);
     const res = await MessageEntity.save(created);
@@ -83,7 +83,7 @@ export class AppController {
     return true;
   }
 
-  @Get('messages')
+  @Get('/api/messages')
   messages(
     @Headers('Authorization') auth: string
   ) {
